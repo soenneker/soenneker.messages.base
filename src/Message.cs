@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using Ardalis.SmartEnum.SystemTextJson;
 using Newtonsoft.Json;
-using Soenneker.Enums.ServiceBusQueue;
 using Soenneker.Utils.Environment;
 
 namespace Soenneker.Messages.Base;
@@ -15,9 +13,7 @@ public abstract class Message
 {
     [JsonPropertyName("queue")]
     [JsonProperty("queue")]
-    [System.Text.Json.Serialization.JsonConverter(typeof(SmartEnumNameConverter<ServiceBusQueue, int>))]
-    [Newtonsoft.Json.JsonConverter(typeof(Ardalis.SmartEnum.JsonNet.SmartEnumNameConverter<ServiceBusQueue, int>))]
-    public ServiceBusQueue Queue { get; set; }
+    public string Queue { get; set; }
 
     /// <summary>
     /// Defaults to machine name
@@ -37,7 +33,7 @@ public abstract class Message
     [JsonProperty("createdAt")]
     public DateTime CreatedAt { get; set; }
 
-    protected Message(ServiceBusQueue queue)
+    protected Message(string queue)
     {
         Queue = queue;
         NewtonsoftSerialize = false;
