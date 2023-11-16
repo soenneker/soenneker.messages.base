@@ -41,6 +41,6 @@
 
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 
-        <PackageReference Include="Soenneker.Utils.Environment" Version="2.0.151" />
+        <PackageReference Include="Soenneker.Utils.Environment" Version="2.0.154" />
     </ItemGroup>
 </Project>
