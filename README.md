@@ -8,5 +8,5 @@
 ## Installation
 
 ```
-Install-Package Soenneker.Messages.Base
+dotnet add package Soenneker.Messages.Base
 ```
