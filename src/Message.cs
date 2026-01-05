@@ -31,13 +31,13 @@ public abstract class Message
 
     [JsonPropertyName("createdAt")]
     [JsonProperty("createdAt")]
-    public DateTime CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
     protected Message(string queue)
     {
         Queue = queue;
         NewtonsoftSerialize = false;
         Sender = EnvironmentUtil.GetMachineName();
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 }
