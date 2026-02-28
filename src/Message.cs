@@ -27,7 +27,7 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("type")]
     [JsonProperty("type", Required = Required.Always)]
-    public required string Type { get; init; }
+    public required string Type { get; set; }
 
     /// <summary>
     /// Gets the unique identifier for this message instance.
@@ -40,7 +40,7 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("id")]
     [JsonProperty("id", Required = Required.Always)]
-    public required string Id { get; init; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// Gets the logical or physical queue name associated with this message.
@@ -51,7 +51,7 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("queue")]
     [JsonProperty("queue", Required = Required.Always)]
-    public required string Queue { get; init; }
+    public required string Queue { get; set; }
 
     /// <summary>
     /// Gets the identifier of the originating service or machine.
@@ -63,7 +63,7 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("sender")]
     [JsonProperty("sender", Required = Required.Always)]
-    public required string Sender { get; init; }
+    public required string Sender { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether this message should be serialized
@@ -76,7 +76,7 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("newtonsoftSerialize")]
     [JsonProperty("newtonsoftSerialize")]
-    public bool NewtonsoftSerialize { get; init; }
+    public bool NewtonsoftSerialize { get; set; }
 
     /// <summary>
     /// Gets the UTC timestamp indicating when the message was created.
@@ -87,5 +87,5 @@ public abstract class Message
     /// </remarks>
     [JsonPropertyName("createdAt")]
     [JsonProperty("createdAt", Required = Required.Always)]
-    public required DateTimeOffset CreatedAt { get; init; }
+    public required DateTimeOffset CreatedAt { get; set; }
 }
