@@ -26,7 +26,7 @@ public abstract class Message
     /// consumers to determine how the message should be processed.
     /// </remarks>
     [JsonPropertyName("type")]
-    [JsonProperty("type", Required = Required.Always)]
+    [JsonProperty("type")]
     public required string Type { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public abstract class Message
     /// to support deduplication and tracing.
     /// </remarks>
     [JsonPropertyName("id")]
-    [JsonProperty("id", Required = Required.Always)]
+    [JsonProperty("id")]
     public required string Id { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public abstract class Message
     /// the messaging infrastructure.
     /// </remarks>
     [JsonPropertyName("queue")]
-    [JsonProperty("queue", Required = Required.Always)]
+    [JsonProperty("queue")]
     public required string Queue { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public abstract class Message
     /// on the hosting environment.
     /// </remarks>
     [JsonPropertyName("sender")]
-    [JsonProperty("sender", Required = Required.Always)]
+    [JsonProperty("sender")]
     public required string Sender { get; set; }
 
     /// <summary>
@@ -86,6 +86,6 @@ public abstract class Message
     /// of the message for auditing, ordering, and replay purposes.
     /// </remarks>
     [JsonPropertyName("createdAt")]
-    [JsonProperty("createdAt", Required = Required.Always)]
+    [JsonProperty("createdAt")]
     public required DateTimeOffset CreatedAt { get; set; }
 }
