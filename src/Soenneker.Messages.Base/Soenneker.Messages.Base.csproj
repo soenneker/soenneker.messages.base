@@ -40,6 +40,6 @@
         <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
         <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageReference Include="Soenneker.Utils.Environment" Version="4.0.681" />
+        <PackageReference Include="Soenneker.Utils.Environment" Version="4.0.682" />
     </ItemGroup>
 </Project>
