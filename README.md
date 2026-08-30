@@ -1,39 +1,64 @@
+# Soenneker.Messages.Base
 [![](https://img.shields.io/nuget/v/Soenneker.Messages.Base.svg?style=for-the-badge)](https://www.nuget.org/packages/Soenneker.Messages.Base/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.messages.base/publish-package.yml?style=for-the-badge)](https://github.com/soenneker/soenneker.messages.base/actions/workflows/publish-package.yml)
 [![](https://img.shields.io/nuget/dt/Soenneker.Messages.Base.svg?style=for-the-badge)](https://www.nuget.org/packages/Soenneker.Messages.Base/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.messages.base/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.messages.base/actions/workflows/codeql.yml)
 
-# Soenneker.Messages.Base
+Defines shared envelope metadata for application messages serialized with System.Text.Json or Newtonsoft.Json.
 
-Represents the base contract for a Service Bus message envelope.
-
-## Install
+## Installation
 
 ```bash
 dotnet add package Soenneker.Messages.Base
 ```
 
-## What you get
+## Define a message
 
-- `Message` — Represents the base contract for a Service Bus message envelope.
+Derive the application payload from `Message` and give the type a stable, versioned identifier:
 
-## API at a glance
+```csharp
+using Soenneker.Messages.Base;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `Message.Type` | Gets the stable message type identifier. | This value should remain stable across refactors and version changes (for example, `"user.created.v1"`). It is typically used by consumers to determine how the message should be processed. |
-| `Message.Id` | Gets the unique identifier for this message instance. | This identifier is intended to be globally unique and stable for the lifetime of the message. It may be mapped to the underlying transport's message identifier (for example, Azure Service Bus `MessageId`) to support deduplication and tracing. |
-| `Message.Queue` | Gets the logical or physical queue name associated with this message. | This value is required and is used for routing or validation within the messaging infrastructure. |
-| `Message.Sender` | Gets the identifier of the originating service or machine. | This value identifies the source of the message and may represent a service name, application instance, or machine identifier depending on the hosting environment. |
-| `Message.NewtonsoftSerialize` | Gets a value indicating whether this message should be serialized using Newtonsoft.Json instead of System.Text.Json. | This flag exists for interoperability scenarios where certain payloads are not compatible with System.Text.Json. It is optional and defaults to `false` if not specified. |
-| `Message.CreatedAt` | Gets the UTC timestamp indicating when the message was created. | This value is required and should represent the original creation time of the message for auditing, ordering, and replay purposes. |
+public sealed class UserCreatedMessage : Message
+{
+    [JsonPropertyName("userId")]
+    [JsonProperty("userId")]
+    public required string UserId { get; set; }
+}
 
-## Important behavior
+var message = new UserCreatedMessage
+{
+    Type = "user.created.v1",
+    Id = Guid.NewGuid().ToString("N"),
+    Queue = "users",
+    Sender = "accounts-api",
+    CreatedAt = DateTimeOffset.UtcNow,
+    UserId = userId
+};
+```
 
-- `Message`: This type defines the required metadata for routing, identity, and auditing within the messaging infrastructure. It is serializer-agnostic and supports both System.Text.Json and Newtonsoft.Json. All required properties must be supplied during object initialization or deserialization. No defaults are applied within this type.
-- `Message.Type`: This value should remain stable across refactors and version changes (for example, `"user.created.v1"`). It is typically used by consumers to determine how the message should be processed.
-- `Message.Id`: This identifier is intended to be globally unique and stable for the lifetime of the message. It may be mapped to the underlying transport's message identifier (for example, Azure Service Bus `MessageId`) to support deduplication and tracing.
-- `Message.Queue`: This value is required and is used for routing or validation within the messaging infrastructure.
-- `Message.Sender`: This value identifies the source of the message and may represent a service name, application instance, or machine identifier depending on the hosting environment.
-- `Message.NewtonsoftSerialize`: This flag exists for interoperability scenarios where certain payloads are not compatible with System.Text.Json. It is optional and defaults to `false` if not specified.
-- `Message.CreatedAt`: This value is required and should represent the original creation time of the message for auditing, ordering, and replay purposes.
+The base metadata uses the same JSON names with both supported serializers:
+
+```json
+{
+  "type": "user.created.v1",
+  "id": "...",
+  "queue": "users",
+  "sender": "accounts-api",
+  "newtonsoftSerialize": false,
+  "createdAt": "2026-08-30T12:00:00+00:00",
+  "userId": "..."
+}
+```
+
+## Contract semantics
+
+- `Type` identifies the payload contract. Change the version when consumers cannot read the new shape.
+- `Id` is the message instance identifier and can be copied to a transport message ID for tracing or deduplication.
+- `Queue` and `Sender` are envelope metadata; this package does not route or authenticate a message.
+- `CreatedAt` should be the original UTC creation time, including when a message is retried.
+- `NewtonsoftSerialize` is a hint for surrounding messaging infrastructure. This package does not inspect the flag or choose a serializer.
+
+C# `required` members provide compile-time initialization guidance, but deserializers and reflection can still produce missing or empty values. Validate messages at the trust boundary before routing or processing them.
