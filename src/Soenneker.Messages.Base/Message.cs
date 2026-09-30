@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace Soenneker.Messages.Base;
 
@@ -9,8 +8,8 @@ namespace Soenneker.Messages.Base;
 /// </summary>
 /// <remarks>
 /// This type defines the required metadata for routing, identity, and auditing
-/// within the messaging infrastructure. It is serializer-agnostic and supports
-/// both System.Text.Json and Newtonsoft.Json.
+/// within the messaging infrastructure. It supports
+/// System.Text.Json.
 /// 
 /// All required properties must be supplied during object initialization or
 /// deserialization. No defaults are applied within this type.
@@ -26,7 +25,6 @@ public abstract class Message
     /// consumers to determine how the message should be processed.
     /// </remarks>
     [JsonPropertyName("type")]
-    [JsonProperty("type")]
     public required string Type { get; set; }
 
     /// <summary>
@@ -39,7 +37,6 @@ public abstract class Message
     /// to support deduplication and tracing.
     /// </remarks>
     [JsonPropertyName("id")]
-    [JsonProperty("id")]
     public required string Id { get; set; }
 
     /// <summary>
@@ -50,7 +47,6 @@ public abstract class Message
     /// the messaging infrastructure.
     /// </remarks>
     [JsonPropertyName("queue")]
-    [JsonProperty("queue")]
     public required string Queue { get; set; }
 
     /// <summary>
@@ -62,7 +58,6 @@ public abstract class Message
     /// on the hosting environment.
     /// </remarks>
     [JsonPropertyName("sender")]
-    [JsonProperty("sender")]
     public required string Sender { get; set; }
 
     /// <summary>
@@ -75,7 +70,6 @@ public abstract class Message
     /// to <see langword="false"/> if not specified.
     /// </remarks>
     [JsonPropertyName("newtonsoftSerialize")]
-    [JsonProperty("newtonsoftSerialize")]
     public bool NewtonsoftSerialize { get; set; }
 
     /// <summary>
@@ -86,6 +80,5 @@ public abstract class Message
     /// of the message for auditing, ordering, and replay purposes.
     /// </remarks>
     [JsonPropertyName("createdAt")]
-    [JsonProperty("createdAt")]
     public required DateTimeOffset CreatedAt { get; set; }
 }

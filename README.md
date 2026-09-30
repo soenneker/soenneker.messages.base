@@ -4,7 +4,7 @@
 [![](https://img.shields.io/nuget/dt/Soenneker.Messages.Base.svg?style=for-the-badge)](https://www.nuget.org/packages/Soenneker.Messages.Base/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.messages.base/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.messages.base/actions/workflows/codeql.yml)
 
-Defines shared envelope metadata for application messages serialized with System.Text.Json or Newtonsoft.Json.
+Defines shared envelope metadata for application messages serialized with System.Text.Json.
 
 ## Installation
 
@@ -19,12 +19,11 @@ Derive the application payload from `Message` and give the type a stable, versio
 ```csharp
 using Soenneker.Messages.Base;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 public sealed class UserCreatedMessage : Message
 {
     [JsonPropertyName("userId")]
-    [JsonProperty("userId")]
     public required string UserId { get; set; }
 }
 
@@ -39,7 +38,7 @@ var message = new UserCreatedMessage
 };
 ```
 
-The base metadata uses the same JSON names with both supported serializers:
+The base metadata uses the same JSON names with System.Text.Json:
 
 ```json
 {
