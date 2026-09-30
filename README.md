@@ -46,7 +46,6 @@ The base metadata uses the same JSON names with System.Text.Json:
   "id": "...",
   "queue": "users",
   "sender": "accounts-api",
-  "newtonsoftSerialize": false,
   "createdAt": "2026-08-30T12:00:00+00:00",
   "userId": "..."
 }
@@ -58,6 +57,5 @@ The base metadata uses the same JSON names with System.Text.Json:
 - `Id` is the message instance identifier and can be copied to a transport message ID for tracing or deduplication.
 - `Queue` and `Sender` are envelope metadata; this package does not route or authenticate a message.
 - `CreatedAt` should be the original UTC creation time, including when a message is retried.
-- `NewtonsoftSerialize` is a hint for surrounding messaging infrastructure. This package does not inspect the flag or choose a serializer.
 
 C# `required` members provide compile-time initialization guidance, but deserializers and reflection can still produce missing or empty values. Validate messages at the trust boundary before routing or processing them.

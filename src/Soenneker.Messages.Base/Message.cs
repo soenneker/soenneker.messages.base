@@ -61,18 +61,6 @@ public abstract class Message
     public required string Sender { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether this message should be serialized
-    /// using Newtonsoft.Json instead of System.Text.Json.
-    /// </summary>
-    /// <remarks>
-    /// This flag exists for interoperability scenarios where certain payloads
-    /// are not compatible with System.Text.Json. It is optional and defaults
-    /// to <see langword="false"/> if not specified.
-    /// </remarks>
-    [JsonPropertyName("newtonsoftSerialize")]
-    public bool NewtonsoftSerialize { get; set; }
-
-    /// <summary>
     /// Gets the UTC timestamp indicating when the message was created.
     /// </summary>
     /// <remarks>
